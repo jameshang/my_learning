@@ -1,0 +1,4 @@
+app.env: dev
+spring.devtools.restart.enabled: false
+spring.config.name: myserver
+spring.cloud.config.server.git.uri: file://${user.home}/work/temp/myserver
