@@ -1,9 +1,0 @@
-spring:
-  application:
-    name: myclient
-  profiles:
-    active: dev
-  cloud: 
-    config: 
-      label: develop
-      uri: http://localhost:8888
