@@ -1,3 +1,4 @@
+spring.application.name: myclient
 param1: prod_value1
 param2: prod_value2
 param3: prod_value3
