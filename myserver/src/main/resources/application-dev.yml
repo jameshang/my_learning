@@ -2,4 +2,4 @@ app.env: dev
 spring.devtools.restart.enabled: false
 spring.config.name: myserver
 #spring.cloud.config.server.git.uri: https://github.com/jameshang/my_learning/tree/develop/myconfig/myserver
-spring.cloud.config.server.git.uri: file://${user.home}/work/workspaces/git/james001/my_learning/myconfig/myserver
+spring.cloud.config.server.git.uri: file://${user.home}/work/workspaces/git/james001/my_learning/
