@@ -1,1 +1,1 @@
-JH Server!!!
+=== JH Config Server ===
