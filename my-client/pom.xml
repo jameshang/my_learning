@@ -2,11 +2,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.jh</groupId>
-	<artifactId>myclient</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
+	<artifactId>my-client</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>myclient</name>
+	<name>my-client</name>
 	<url>http://maven.apache.org</url>
 
 	<properties>
@@ -36,7 +36,7 @@
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-eureka</artifactId>
 		</dependency>
-		
+
 	</dependencies>
 
 	<!-- (you don't need this if you are using a .RELEASE version) -->
@@ -86,5 +86,4 @@
 			</plugin>
 		</plugins>
 	</build>
-
 </project>

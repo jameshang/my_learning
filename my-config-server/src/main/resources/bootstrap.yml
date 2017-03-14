@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: my-config-server
+  profiles:
+    active: dev
