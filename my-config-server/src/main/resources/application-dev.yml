@@ -6,4 +6,4 @@ spring:
       server: 
         git: 
           uri: https://github.com/jameshang/my_config.git
-          searchPaths: my-config/my-client
+          searchPaths: my-config/my-client, my-config/my-eureka-server, my-config/my-service
