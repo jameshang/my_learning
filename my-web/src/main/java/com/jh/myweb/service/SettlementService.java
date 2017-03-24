@@ -2,14 +2,19 @@ package com.jh.myweb.service;
 
 import java.math.BigDecimal;
 import java.sql.Connection;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jh.myweb.exception.MyWebException;
+import com.jh.myweb.processor.GetSettlementProcessor;
+import com.jh.myweb.processor.ProcessorStates;
+import com.jh.myweb.processor.UpdateSettlementProcessor;
 import com.jh.myweb.vo.Balance;
 import com.jh.myweb.vo.Merchant;
 
@@ -53,6 +58,7 @@ public class SettlementService {
         try (Connection conn = this.dbService.getConnection()) {
             conn.setAutoCommit(false);
             conn.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
+            this.clear(conn);
             int mCount = 0;
             int bCount = 0;
             for (int i = 1; i <= 9; i++) {
@@ -66,7 +72,7 @@ public class SettlementService {
                 long merchantId = this.merchantService.add(merchant, conn);
                 mCount++;
 
-                for (int j = 1; j <= 9; j++) {
+                for (int j = 1; j <= 2; j++) {
                     Balance balance = new Balance();
                     balance.setMerchantId(merchantId);
                     balance.setType((j - 1) % 3 + 1);
@@ -83,6 +89,29 @@ public class SettlementService {
             return "Merchant rows effected: " + mCount + ", Balance rows effected: " + bCount;
         } catch (Exception e) {
             throw MyWebException.create("Create settlement failed!", e);
+        }
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/tx1/{id}", method = RequestMethod.GET)
+    public Map<String, Object> doTx1(@PathVariable("id") long merchantId) throws MyWebException {
+        try {
+            ProcessorStates states = new ProcessorStates();
+            UpdateSettlementProcessor updateSettlementProcessor = new UpdateSettlementProcessor(this.dbService, this.merchantService, this.balanceService,
+                    merchantId, states);
+            GetSettlementProcessor getSettlementProcessor = new GetSettlementProcessor(this.dbService, this.merchantService, this.balanceService, merchantId,
+                    states);
+            Thread updateSettlementThread = new Thread(updateSettlementProcessor);
+            Thread getSettlementThread = new Thread(getSettlementProcessor);
+            updateSettlementThread.start();
+            getSettlementThread.start();
+
+            while (states.getGetSettlementState() != ProcessorStates.FINISHED) {
+                Thread.sleep(100);
+            }
+            return getSettlementProcessor.getResult();
+        } catch (Exception e) {
+            throw MyWebException.create("TX1 process failed!", e);
         }
     }
 

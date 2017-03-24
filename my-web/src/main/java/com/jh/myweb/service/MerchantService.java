@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jh.myweb.exception.MyWebException;
+import com.jh.myweb.vo.Balance;
 import com.jh.myweb.vo.Merchant;
 
 @RestController
@@ -23,6 +25,9 @@ public class MerchantService {
 
     @Autowired
     private DBService dbService;
+
+    @Autowired
+    private BalanceService balanceService;
 
     @Value("${sql.merchant.add}")
     private String sqlAddMerchant;
@@ -156,6 +161,16 @@ public class MerchantService {
             return merchant;
         } catch (Exception e) {
             throw MyWebException.create("Get merchant failed!", e);
+        }
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/balance/{id}", method = RequestMethod.GET)
+    public List<Balance> doGetBalance(@PathVariable("id") Long merchantId) throws MyWebException {
+        try (Connection conn = this.dbService.getConnection()) {
+            return this.balanceService.getByMerchant(merchantId, conn);
+        } catch (Exception e) {
+            throw MyWebException.create("Get balance failed!", e);
         }
     }
 

@@ -11,10 +11,11 @@ sql:
     delete: delete from tbl_merchant where id=?
     update: update tbl_merchant set name=?, contact=?, address=?, status=?, remark=? where id=?
     get: select id, name, contact, address, status, remark, updated_at, created_at from tbl_merchant where id=?
-    clear: delete from tbl_merchant where id>0
+    clear: truncate tbl_merchant
   balance:
     add: insert into tbl_balance (merchant_id, type, balance, status, total, description) values (?, ?, ?, ?, ?, ?)
     delete: delete from tbl_balance where id=?
     update: update tbl_balance set merchant_id=?, type=?, balance=?, status=?, total=?, description=? where id=?
     get: select id, merchant_id, type, balance, status, total, description, updated_at, created_at from tbl_balance where id=?
-    clear: delete from tbl_balance where id>0 
+    getByMerchant: select id, merchant_id, type, balance, status, total, description, updated_at, created_at from tbl_balance where merchant_id=?
+    clear: truncate tbl_balance 

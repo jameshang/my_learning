@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -35,6 +37,9 @@ public class BalanceService {
 
     @Value("${sql.balance.get}")
     private String sqlGetBalance;
+
+    @Value("${sql.balance.getByMerchant}")
+    private String sqlGetByMerchant;
 
     @Value("${sql.balance.clear}")
     private String sqlClearBalance;
@@ -141,24 +146,49 @@ public class BalanceService {
 
     public Balance get(Long id, Connection conn) throws MyWebException {
         try (PreparedStatement pstmt = conn.prepareStatement(this.sqlGetBalance)) {
-            Balance balance = new Balance();
             pstmt.setLong(1, id);
             ResultSet rs = pstmt.executeQuery();
+            Balance balance = null;
             if (rs.next()) {
-                balance.setId(rs.getLong("id"));
-                balance.setMerchantId(rs.getLong("merchant_id"));
-                balance.setType(rs.getInt("type"));
-                balance.setBalance(rs.getBigDecimal("balance"));
-                balance.setTotal(rs.getInt("total"));
-                balance.setDescription(rs.getString("description"));
-                balance.setStatus(rs.getInt("status"));
-                balance.setCreatedAt(rs.getTimestamp("created_at"));
-                balance.setUpdateAt(rs.getTimestamp("created_at"));
+                balance = this.buildBalance(rs);
             }
             rs.close();
             return balance;
         } catch (Exception e) {
             throw MyWebException.create("Get balance failed!", e);
+        }
+    }
+
+    public List<Balance> getByMerchant(Long merchantId, Connection conn) throws MyWebException {
+        try (PreparedStatement pstmt = conn.prepareStatement(this.sqlGetByMerchant)) {
+            pstmt.setLong(1, merchantId);
+            ResultSet rs = pstmt.executeQuery();
+            List<Balance> list = new ArrayList<>();
+            while (rs.next()) {
+                list.add(this.buildBalance(rs));
+            }
+            rs.close();
+            return list;
+        } catch (Exception e) {
+            throw MyWebException.create("Get balance failed!", e);
+        }
+    }
+
+    private Balance buildBalance(ResultSet rs) throws MyWebException {
+        try {
+            Balance balance = new Balance();
+            balance.setId(rs.getLong("id"));
+            balance.setMerchantId(rs.getLong("merchant_id"));
+            balance.setType(rs.getInt("type"));
+            balance.setBalance(rs.getBigDecimal("balance"));
+            balance.setTotal(rs.getInt("total"));
+            balance.setDescription(rs.getString("description"));
+            balance.setStatus(rs.getInt("status"));
+            balance.setCreatedAt(rs.getTimestamp("created_at"));
+            balance.setUpdateAt(rs.getTimestamp("created_at"));
+            return balance;
+        } catch (Exception e) {
+            throw MyWebException.create("Build balance failed!", e);
         }
     }
 
