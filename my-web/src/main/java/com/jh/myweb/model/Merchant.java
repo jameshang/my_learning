@@ -1,6 +1,6 @@
-package com.jh.myweb.vo;
+package com.jh.myweb.model;
 
-public class Merchant extends BaseVO {
+public class Merchant extends BaseModel {
 
     private String name;
     private String contact;

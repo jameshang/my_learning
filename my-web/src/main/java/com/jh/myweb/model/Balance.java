@@ -1,8 +1,8 @@
-package com.jh.myweb.vo;
+package com.jh.myweb.model;
 
 import java.math.BigDecimal;
 
-public class Balance extends BaseVO {
+public class Balance extends BaseModel {
 
     private Long merchantId;
     private Integer type;

@@ -8,11 +8,11 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.jh.myweb.model.Balance;
+import com.jh.myweb.model.Merchant;
 import com.jh.myweb.service.BalanceService;
 import com.jh.myweb.service.DBService;
 import com.jh.myweb.service.MerchantService;
-import com.jh.myweb.vo.Balance;
-import com.jh.myweb.vo.Merchant;
 
 public class UpdateSettlementProcessor implements Runnable {
 

@@ -12,11 +12,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jh.myweb.exception.MyWebException;
+import com.jh.myweb.model.Balance;
+import com.jh.myweb.model.Merchant;
 import com.jh.myweb.processor.GetSettlementProcessor;
 import com.jh.myweb.processor.ProcessorStates;
 import com.jh.myweb.processor.UpdateSettlementProcessor;
-import com.jh.myweb.vo.Balance;
-import com.jh.myweb.vo.Merchant;
 
 @RestController
 @RequestMapping("/settlement")
