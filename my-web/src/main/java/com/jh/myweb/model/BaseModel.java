@@ -1,8 +1,8 @@
-package com.jh.myweb.vo;
+package com.jh.myweb.model;
 
 import java.sql.Timestamp;
 
-public class BaseVO {
+public class BaseModel {
 
     private Long id;
     private Integer status;
