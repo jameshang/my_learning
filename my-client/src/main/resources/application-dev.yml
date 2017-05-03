@@ -1,0 +1,18 @@
+server: 
+  port: 8080
+endpoints:
+  sensitive: false
+management:  
+  port: 9000
+  health:
+    mail:
+      enabled: false
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://eureka-peer1:8761/eureka/
+zuul:
+  routes:
+    myservice:
+      path: /mysrv/**
+      serviceId: my-service

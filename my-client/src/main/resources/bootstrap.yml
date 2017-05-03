@@ -3,7 +3,3 @@ spring:
     name: my-client
   profiles:
     active: dev
-  cloud: 
-    config: 
-      label: develop
-      uri: http://localhost:8888

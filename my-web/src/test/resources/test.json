@@ -1,0 +1,14 @@
+{
+	"users": [
+		{
+			"username": "appsjk",
+			"password": "manager",
+			"role": "ADMIN"
+		},
+		{
+			"username": "appconfig",
+			"password": "appconfig",
+			"role": "USER"
+		}
+	]
+}
