@@ -1,0 +1,10 @@
+server:
+  port: 8761
+endpoints:
+  sensitive: false
+eureka:
+  instance:
+    hostname: eureka-peer1
+  client:
+    serviceUrl:
+      defaultZone: http://eureka-peer2:8762/eureka/,http://eureka-peer3:8763/eureka/,http://eureka-peer4:8764/eureka/
