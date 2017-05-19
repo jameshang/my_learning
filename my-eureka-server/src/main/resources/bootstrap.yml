@@ -1,5 +1,3 @@
 spring:
   application:
     name: my-eureka-server
-  profiles:
-    active: peer1
